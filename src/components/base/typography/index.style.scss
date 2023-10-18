@@ -1,0 +1,292 @@
+@import '../../../styles/resources.scss';
+
+.typography--variant-h1 {
+  // used
+  font-family: $font-family-poppins;
+  font-weight: $font-weight-500;
+  color: $grey-color-500;
+  font-size: $font-size-header;
+  line-height: 67.2px;
+}
+
+.typography--variant-h2 {
+  font-family: $font-family-poppins;
+  font-size: 32px;
+  font-weight: 500;
+  color: $color-slate-brown-1;
+  line-height: 38.4px;
+}
+
+.typography--variant-h2mid {
+  font-family: $font-family-poppins;
+  font-size: 28px;
+  font-weight: 500;
+  color: $color-slate-brown-1;
+  line-height: normal;
+}
+
+.typography--variant-h3 {
+  // used
+  font-family: $font-family-poppins;
+  font-size: 24px;
+  font-weight: 500;
+  color: $color-slate-brown-1;
+  line-height: 34.5px;
+}
+
+.typography--variant-h4 {
+  font-family: $font-family-poppins;
+  font-size: 20px;
+  font-weight: 500;
+  color: $color-slate-brown-1;
+  line-height: normal;
+}
+
+.typography--variant-h5 {
+  font-family: $font-family-avenir;
+  //font-family: $font-family-poppins;
+  //font-family: 'Avenir';
+  font-size: 28px;
+  font-weight: 400;
+  color: $grey-color-500;
+  line-height: 140%;
+}
+
+.typography--variant-h6 {
+  font-family: $font-family-poppins;
+  font-size: 14;
+  font-weight: 700;
+  color: $color-grey-7;
+  line-height: 16.8px;
+}
+
+.typography--variant-subheading1 {
+  //used
+  line-height: 28px;
+  font-family: $font-family-avenir;
+  font-weight: $font-weight-400;
+  color: #515561;
+  font-size: $font-size-subheader;
+  line-height: 140%;
+}
+
+.typography--variant-subheading2 {
+  font-family: $font-family-avenir;
+  font-weight: 400;
+  font-size: 24px;
+  color: $color-black;
+}
+
+.typography--variant-subheading3 {
+  font-family: $font-family-avenir;
+  font-weight: 400;
+  font-size: 18px;
+  color: $color-black;
+}
+
+.typography--variant-body {
+  font-family: $font-family-poppins;
+  font-size: 20px;
+  font-weight: 400;
+  color: $color-slate-brown-1;
+  line-height: 21.6px;
+}
+
+.typography--variant-body2 {
+  font-family: $font-family-avenir;
+  font-size: 20px;
+  font-weight: 350;
+  color: $color-slate-brown-1;
+}
+
+.typography--variant-span {
+  //used
+  font-family: $font-family-poppins;
+  font-weight: 400;
+  font-size: 18;
+  color: $color-grey-6;
+  line-height: 21.6px;
+}
+
+.typography--variant-p {
+  //used
+  font-family: $font-family-poppins;
+  font-size: 16px;
+  font-weight: 400;
+  color: $color-slate-brown-1;
+  line-height: 140%;
+}
+
+.typography--variant-ptext {
+  font-family: $font-family-poppins;
+  font-size: 16;
+  font-weight: 400;
+  color: $elchemy-text-2;
+  line-height: 19px;
+}
+.typography--variant-pdoc {
+  font-family: $font-family-poppins;
+  font-size: 16;
+  font-weight: 500;
+  color: $color-slate-brown-1;
+  line-height: 19px;
+}
+
+.typography--variant-label {
+  //label
+  font-family: $font-family-avenir;
+  font-size: 16px;
+  font-weight: 400;
+  color: $grey-color-400;
+  line-height: 19px;
+}
+
+.typography--variant-label2 {
+  //label
+  font-family: $font-family-avenir;
+  font-size: 20px;
+  font-weight: 350;
+  color: $grey-color-400;
+  line-height: 28px;
+}
+
+.typography--variant-inherit {
+  font: inherit;
+  color: inherit;
+  background-color: inherit;
+}
+
+.typography--color-primary {
+  color: #f2994a;
+}
+
+.typography--color-error {
+  color: #eb5757;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+  .typography--variant-h1 {
+    font-family: $font-family-poppins;
+    font-weight: $font-weight-500;
+    color: $grey-color-500;
+    font-size: 20px;
+    line-height: normal;
+  }
+
+  .typography--variant-subheading1 {
+    line-height: 140%;
+    font-family: $font-family-avenir;
+    font-weight: $font-weight-400;
+    color: $grey-color-400;
+    font-size: 16px;
+  }
+
+  .typography--variant-body {
+    font-family: $font-family-poppins;
+    font-size: 12px;
+    font-weight: 400;
+    color: $color-slate-brown-1;
+    line-height: 140%;
+  }
+
+  .typography--variant-h2 {
+    font-family: $font-family-poppins;
+    font-size: 18px;
+    font-weight: 500;
+    color: $color-slate-brown-1;
+    line-height: normal;
+  }
+
+  .typography--variant-h3 {
+    font-family: $font-family-poppins;
+    font-weight: $font-weight-500;
+    color: $grey-color-500;
+    font-size: 20px;
+    line-height: normal;
+  }
+
+  .typography--variant-label {
+    font-family: $font-family-avenir;
+    font-size: 12px;
+    font-weight: 400;
+    color: $grey-color-400;
+  }
+
+  .typography--variant-h4 {
+    font-family: $font-family-poppins;
+    font-size: 18px;
+    font-weight: 500;
+    color: $color-slate-brown-1;
+    line-height: normal;
+  }
+  .typography--variant-h5 {
+    font-family: $font-family-avenir;
+    font-size: 18px;
+    font-weight: 400;
+    color: $grey-color-500;
+    line-height: 140%;
+  }
+  .typography--variant-subheading2 {
+    font-family: $font-family-avenir;
+    font-weight: 400;
+    font-size: 16px;
+    color: $color-black;
+  }
+
+  .typography--variant-subheading3 {
+    font-family: $font-family-avenir;
+    font-weight: 400;
+    font-size: 14px;
+    color: $color-black;
+  }
+
+  .typography--variant-label2 {
+    //label
+    font-family: $font-family-avenir;
+    font-size: 16px;
+    font-weight: 400;
+    color: $grey-color-400;
+    line-height: 19px;
+  }
+
+  .typography--variant-h2mid {
+    font-family: $font-family-poppins;
+    font-size: 16px;
+    font-weight: 500;
+    color: $color-slate-brown-1;
+    line-height: normal;
+  }
+
+  .typography--variant-body2 {
+    font-family: $font-family-avenir;
+    font-size: 16px;
+    font-weight: 350;
+    color: $color-slate-brown-1;
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  .typography--variant-h1 {
+    font-family: $font-family-poppins;
+    font-weight: $font-weight-500;
+    color: $grey-color-500;
+    font-size: 22px;
+    line-height: normal;
+  }
+
+  .typography--variant-subheading1 {
+    line-height: 140%;
+    font-family: $font-family-avenir;
+    font-weight: $font-weight-400;
+    color: $grey-color-400;
+    font-size: 18px;
+  }
+
+  .typography--variant-body {
+    font-family: $font-family-poppins;
+    font-size: 14px;
+    font-weight: 400;
+    color: $color-slate-brown-1;
+    line-height: 140%;
+  }
+}

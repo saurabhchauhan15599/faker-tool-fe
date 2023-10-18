@@ -1,0 +1,56 @@
+@import '../../../styles/resources';
+
+.accordion-root {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  font: inherit;
+  background-color: inherit;
+  color: inherit;
+  border-radius: inherit;
+  .accordion-header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    min-height: 20px;
+    .accordion-header-content {
+      align-self: stretch;
+      display: flex;
+      flex: 1;
+      align-items: center;
+      font: inherit;
+      background-color: inherit;
+      color: inherit;
+    }
+    .accordion-chevron-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 20px;
+      height: 20px;
+    }
+    .chevron-rotate {
+      transform: rotate(180deg);
+      transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    }
+  }
+  .accordion-disabled {
+    pointer-events: none;
+    user-select: none;
+    cursor: not-allowed;
+  }
+  .accordion-content {
+    overflow: visible;
+    min-height: 0px;
+    height: auto;
+    transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  }
+  .accordion-content-collapse {
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    user-select: none;
+  }
+}

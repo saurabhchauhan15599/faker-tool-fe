@@ -1,0 +1,20 @@
+@import "../../styles/resources.scss";
+
+.container {
+  width: 100%;
+  display: flex;
+
+  .primary {
+    width: 15%;
+  }
+  .secondary {
+    margin: 0 1rem;
+    flex: 85%;
+    box-shadow: $box-shadow-4;
+    border-radius: 8px;
+  }
+}
+
+.text {
+  font-size: 16px;
+}
