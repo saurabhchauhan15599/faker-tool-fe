@@ -7,8 +7,8 @@ import css from "./index.module.scss";
 import moment from "moment";
 
 export const columnsClient = ({
-  handleDelete = (value: Client) => {},
-  handleEdit = (value: Client) => {},
+  handleDelete = (_value: Client) => {},
+  handleEdit = (_value: Client) => {},
 }) => {
   return [
     {
@@ -71,8 +71,8 @@ export const columnsClient = ({
 };
 
 export const columnsProjects = ({
-  handleDelete = (value: Project) => {},
-  handleEdit = (value: Project) => {},
+  handleDelete = (_value: Project) => {},
+  handleEdit = (_value: Project) => {},
 }) => {
   return [
     {
@@ -131,8 +131,8 @@ export const columnsProjects = ({
 };
 
 export const columnsEmployees = ({
-  handleDelete = (value: Employee) => {},
-  handleEdit = (value: Employee) => {},
+  handleDelete = (_value: Employee) => {},
+  handleEdit = (_value: Employee) => {},
 }) => {
   return [
     {

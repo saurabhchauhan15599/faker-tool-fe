@@ -20,7 +20,7 @@ const Dashboard = () => {
     currentStep: 0,
     tableData: [],
   });
-  const { isLoading, currentStep, tableData } = userData;
+  const { currentStep, tableData } = userData;
 
   useEffect(() => {
     fetchClients();

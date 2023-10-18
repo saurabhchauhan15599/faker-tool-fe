@@ -35,21 +35,6 @@ export const typographyVariantsMapping: Record<string, string> = {
   inherit: "span",
 };
 
-export const MAX_FILE_SIZE = 10485760; // 10 MB
-
-export const DIGIT_REGEX = new RegExp(/^\d+$/);
-
-export const ASCII_KEYS = {
-  backspace: "Backspace",
-  arrowRight: "ArrowRight",
-  arrowLeft: "ArrowLeft",
-  arrowUp: "ArrowUp",
-  arrowDown: "ArrowDown",
-  space: "Space",
-  escape: "Escape",
-  enter: "Enter",
-};
-
 export const SERVER_CONFIG = {
   users: "users",
   otpSend: "otp/send",
