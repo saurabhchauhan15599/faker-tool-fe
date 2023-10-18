@@ -1,0 +1,39 @@
+@import "../../../styles/resources.scss";
+
+.container {
+  background-color: $start-color;
+  max-height: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: $color-grey-1;
+  padding: 1rem;
+
+  .typoGraphyPrimary {
+    color: $color-grey-1;
+    font-size: 30px;
+  }
+
+  .typoGraphy {
+    color: $color-grey-1;
+  }
+
+  .primary {
+    margin-left: 10rem;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    column-gap: 5rem;
+
+    .logo {
+      color: inherit;
+    }
+  }
+
+  .secondary {
+    margin-right: 10rem;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
