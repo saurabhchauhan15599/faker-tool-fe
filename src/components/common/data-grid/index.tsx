@@ -35,7 +35,7 @@ function Table<T extends object>(props: TableProps<T>) {
           prepareRow(row);
           return (
             <tr className={css.bodyRowWrapper} {...row.getRowProps()}>
-              {row.cells.map((cell) => (
+              {row?.cells.map((cell) => (
                 <td className={css.bodyDataWrapper} {...cell.getCellProps()}>
                   {cell.render('Cell')}
                 </td>

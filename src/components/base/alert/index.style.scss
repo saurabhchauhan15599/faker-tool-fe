@@ -1,0 +1,93 @@
+@import '../../../styles/resources.scss';
+
+.alert-root {
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  font-family: $font-family-poppins;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14;
+  padding: 12px;
+  line-height: 16.8px;
+  gap: 8px;
+  .alert-icon-wrapper {
+    align-self: stretch;
+    display: flex;
+    padding-top: 2px;
+    width: 20px;
+    justify-content: center;
+    align-items: flex-start;
+    border-radius: 50%;
+    .alert-icon {
+      display: block;
+      object-fit: contain;
+      object-position: center;
+      width: auto;
+      max-height: 100%;
+    }
+  }
+  .alert-message {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    font: inherit;
+    color: inherit;
+    background-color: inherit;
+    border-radius: inherit;
+  }
+  .alert-close-icon-wrapper {
+    margin-left: auto;
+    align-self: flex-start;
+    display: flex;
+    padding-top: 2px;
+    width: 20px;
+    height: 20px;
+    justify-content: center;
+    align-items: flex-start;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    .alert-icon {
+      display: block;
+      object-fit: contain;
+      object-position: center;
+      width: auto;
+      max-height: 100%;
+    }
+  }
+}
+
+.alert-title-root {
+  font-family: $font-family-poppins;
+  font-size: 14px;
+  font-weight: 700;
+  color: inherit;
+  margin-bottom: 4px;
+}
+
+.alert-error {
+  background-color: #ffeeed;
+  border: 1px solid #f04438;
+  color: #f04438;
+}
+
+.alert-info {
+  background: #eff0ff;
+  border: 1px solid #3a49e3;
+  color: #3a49e3;
+}
+
+.alert-warning {
+  background: #fff5e9;
+  border: 1px solid #f79009;
+  color: #f79009;
+}
+
+.alert-success {
+  background: #eafaf2;
+  border: 1px solid #12b76a;
+  color: #12b76a;
+}

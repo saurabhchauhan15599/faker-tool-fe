@@ -1,0 +1,15 @@
+.formFields {
+  display: flex;
+  gap: 12px;
+  padding: 1rem;
+}
+
+.btnContainer {
+  padding: 1rem;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  button {
+    width: 50%;
+  }
+}
