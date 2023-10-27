@@ -1,10 +1,11 @@
+import moment from "moment";
 import { CellProps } from "react-table";
 import PenIcon from "../../assets/icons/PenIcon";
 import TrashCanIcon from "../../assets/icons/TrashCanIcon";
 import Typography from "../../components/base/typography";
 import { Client, Employee, Project } from "../../helpers/types";
+import { getCommaSeparatedValue } from "../../helpers/utils";
 import css from "./index.module.scss";
-import moment from "moment";
 
 export const columnsClient = ({
   handleDelete = (_value: Client) => {},
@@ -16,11 +17,7 @@ export const columnsClient = ({
       accessor: "name",
       Cell: (props: CellProps<Client>) => {
         const { value } = props;
-        return (
-          <Typography className={css.text}>
-            {value}
-          </Typography>
-        );
+        return <Typography className={css.text}>{value}</Typography>;
       },
     },
     {
@@ -40,7 +37,7 @@ export const columnsClient = ({
       },
     },
     {
-      Header: "Representative Name",
+      Header: "Rep. Name",
       accessor: "representativeName",
       Cell: (props: CellProps<Client>) => {
         const { value } = props;
@@ -48,7 +45,7 @@ export const columnsClient = ({
       },
     },
     {
-      Header: "Representative Contact",
+      Header: "Rep. Contact",
       accessor: "representativeContact",
       Cell: (props: CellProps<Client>) => {
         const { value } = props;
@@ -96,7 +93,11 @@ export const columnsProjects = ({
       accessor: "startDate",
       Cell: (props: CellProps<Project>) => {
         const { value } = props;
-        return <Typography className={css.text}>{moment(value).format('DD/MM/YY')}</Typography>;
+        return (
+          <Typography className={css.text}>
+            {moment(value).format("DD/MM/YY")}
+          </Typography>
+        );
       },
     },
     {
@@ -104,7 +105,11 @@ export const columnsProjects = ({
       accessor: "endDate",
       Cell: (props: CellProps<Project>) => {
         const { value } = props;
-        return <Typography className={css.text}>{moment(value).format('DD/MM/YY')}</Typography>;
+        return (
+          <Typography className={css.text}>
+            {moment(value).format("DD/MM/YY")}
+          </Typography>
+        );
       },
     },
     {
@@ -145,10 +150,22 @@ export const columnsEmployees = ({
     },
     {
       Header: "Email",
-      accessor: "email",
+      accessor: "emailId",
       Cell: (props: CellProps<Employee>) => {
         const { value } = props;
         return <Typography className={css.text}>{value}</Typography>;
+      },
+    },
+    {
+      Header: "Salary",
+      accessor: "salary",
+      Cell: (props: CellProps<Employee>) => {
+        const { value } = props;
+        return (
+          <Typography className={[css.text, css.currency].join(' ')}>
+            ₹ {getCommaSeparatedValue(value)}
+          </Typography>
+        );
       },
     },
     {
@@ -180,7 +197,14 @@ export const columnsEmployees = ({
       accessor: "action",
       Cell: (props: CellProps<Employee>) => {
         return (
-          <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              gap: "1rem",
+              alignItems: "center",
+              margin: "0 1rem",
+            }}
+          >
             <PenIcon onClick={() => handleEdit(props.row.original)} />
             <TrashCanIcon onClick={() => handleDelete(props.row.original)} />
           </div>

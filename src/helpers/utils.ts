@@ -50,3 +50,18 @@ export const randomColorGenerator = () => {
   const randomColor = colorArray[randomIndex];
   return randomColor;
 };
+
+export function getCommaSeparatedValue(value: string) {
+  if (value) {
+    value = Number(value).toFixed(2).toString();
+    const parts = value.split(".");
+    return Number(parts[0]).toLocaleString() + "." + parts[1];
+  } else {
+    return null;
+  }
+}
+
+export function validateLimit(limit: string) {
+  const numberRegex = /^\d+$/;
+  return numberRegex.test(limit);
+}

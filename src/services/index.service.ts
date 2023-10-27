@@ -5,6 +5,7 @@ import Axios, {
   InternalAxiosRequestConfig,
   isAxiosError,
 } from "axios";
+import notify from "../helpers/toastify-helper";
 
 const httpClient = Axios.create({
   baseURL: `http://192.168.101.232:8000/`,
@@ -37,15 +38,29 @@ const handleResponseError = async (error: any) => {
 const getErrorCode = (error: AxiosError) => {
   switch (error.code) {
     case AxiosError.ECONNABORTED:
-      alert("Connection timeout");
+      notify({
+        title: "Connection timeout",
+        message: "Server took too long to respond",
+        severity: "warning",
+      });
       break;
     case AxiosError.ERR_NETWORK:
-      alert("Service Unavailable");
+      notify({
+        title: "Service unavailable",
+        message: "Can't connect to server.",
+        severity: "warning",
+        dismissible: false,
+        showIcon: false,
+      });
       break;
     case AxiosError.ERR_CANCELED:
+      notify({
+        title: "Unknown error",
+        message: "Something went wrong.",
+        severity: "error",
+      });
       break;
     default:
-      alert("Error");
       break;
   }
   return Promise.reject({

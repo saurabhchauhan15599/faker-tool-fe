@@ -15,7 +15,7 @@
     border-top-right-radius: inherit;
     -webkit-border-top-left-radius: inherit;
     -webkit-border-top-right-radius: inherit;
-    
+
     .headerWrapper {
       font-family: $font-family-poppins;
       font-size: 16px;
@@ -28,6 +28,7 @@
       }
     }
   }
+
   .bodyRowWrapper {
     height: 68px;
     background-color: var(--color-white);
@@ -42,13 +43,13 @@
         border-bottom: none;
       }
     }
-    
+
     .bodyDataWrapper {
       font-family: $font-family-source-code;
       font-size: 16px;
       font-weight: 400;
       color: $color-slate-brown-1;
-      line-height: 19px;
+      line-height: 20px;
       border-bottom: 1px solid var(--color-grey-2);
       text-align: center;
       &:first-child {
