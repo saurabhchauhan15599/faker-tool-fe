@@ -8,7 +8,7 @@ import Axios, {
 import notify from "../helpers/toastify-helper";
 
 const httpClient = Axios.create({
-  baseURL: `http://192.168.101.232:8000/`,
+  baseURL: import.meta.env.REACT_APP_BASE_URL!,
   timeout: 2000 * 10,
   responseType: "json",
 });
