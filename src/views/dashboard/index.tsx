@@ -172,7 +172,7 @@ const Dashboard = () => {
   };
 
   const onFormSubmit = async () => {
-    const res =
+    const res: any =
       currentStep === 0
         ? await saveClients({ limit: limit })
         : currentStep === 1
@@ -180,7 +180,7 @@ const Dashboard = () => {
         : null;
 
     notify({
-      message: "Users Added",
+      message: res.message,
       severity: "success",
     });
     setUserData((prev) => ({
@@ -204,13 +204,14 @@ const Dashboard = () => {
       ...gettingDeg,
     };
 
-    const res =
+    const res: any =
       currentStep === 0
         ? await updateClient(user?.clientId, formData)
         : currentStep === 1
         ? await updateProject(user.projectId, formData)
         : await updateEmployee(user.employeeId, formData);
 
+    if (res) console.log(res);
     setUserData((prev) => ({
       ...prev,
       edit: !prev.edit,

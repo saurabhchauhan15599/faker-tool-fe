@@ -7,8 +7,7 @@ export async function getEmployees() {
     const response = await httpClient.get(SERVER_CONFIG.employee);
     return response;
   } catch (error) {
-    console.error(error);
-    return error;
+    throw error;
   }
 }
 
@@ -17,8 +16,7 @@ export async function saveEmployees(requestBody: any) {
     const response = await httpClient.post(SERVER_CONFIG.employee, requestBody);
     return response;
   } catch (error) {
-    console.error(error);
-    return error;
+    throw error;
   }
 }
 
@@ -33,8 +31,7 @@ export async function updateEmployee(
     );
     return response;
   } catch (error) {
-    console.error(error);
-    return error;
+    throw error;
   }
 }
 
@@ -43,7 +40,6 @@ export async function deleteEmployee(id: string) {
     const response = await httpClient.delete(`${SERVER_CONFIG.employee}/${id}`);
     return response;
   } catch (error) {
-    console.error(error);
-    return error;
+    throw error;
   }
 }

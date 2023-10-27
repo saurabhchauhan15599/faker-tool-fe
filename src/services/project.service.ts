@@ -7,8 +7,7 @@ export async function getProjects() {
     const response = await httpClient.get(SERVER_CONFIG.project);
     return response;
   } catch (error) {
-    console.error(error);
-    return error;
+    throw error;
   }
 }
 
@@ -17,8 +16,7 @@ export async function saveProjects(requestBody: { limit: string }) {
     const response = await httpClient.post(SERVER_CONFIG.project, requestBody);
     return response;
   } catch (error) {
-    console.error(error);
-    return error;
+    throw error;
   }
 }
 
@@ -30,8 +28,7 @@ export async function updateProject(id: string, requestBody: Partial<Project>) {
     );
     return response;
   } catch (error) {
-    console.error(error);
-    return error;
+    throw error;
   }
 }
 
@@ -40,7 +37,6 @@ export async function deleteProject(id: string) {
     const response = await httpClient.delete(`${SERVER_CONFIG.project}/${id}`);
     return response;
   } catch (error) {
-    console.error(error);
-    return error;
+    throw error;
   }
 }
