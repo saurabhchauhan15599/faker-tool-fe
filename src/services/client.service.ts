@@ -7,8 +7,7 @@ export async function getClients() {
     const response = await httpClient.get(SERVER_CONFIG.client);
     return response;
   } catch (error) {
-    console.error(error);
-    return error;
+    throw error;
   }
 }
 
@@ -17,7 +16,7 @@ export async function saveClients(requestBody: { limit: string }) {
     const data = await httpClient.post(SERVER_CONFIG.client, requestBody);
     return data;
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 }
 
@@ -29,7 +28,7 @@ export async function updateClient(id: string, requestBody: Partial<Client>) {
     );
     return data;
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 }
 
@@ -38,6 +37,6 @@ export async function deleteClient(id: string) {
     const data = await httpClient.delete(`${SERVER_CONFIG.client}/${id}`);
     return data;
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 }
