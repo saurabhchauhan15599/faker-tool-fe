@@ -6,7 +6,7 @@ export default defineConfig({
   envPrefix: "REACT_APP_",
   plugins: [react()],
   build: {
-    outDir: "../dist",
+    outDir: "build",  
   },
   server: {
     port: 3000,
