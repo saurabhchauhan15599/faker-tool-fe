@@ -2,9 +2,11 @@ import { SERVER_CONFIG } from "../helpers/constant";
 import { Employee } from "../helpers/types";
 import httpClient from "./index.service";
 
-export async function getEmployees() {
+export async function getEmployees(skip: number, limit: number) {
   try {
-    const response = await httpClient.get(SERVER_CONFIG.employee);
+    const response = await httpClient.get(
+      `${SERVER_CONFIG.employee}?skip=${skip}&limit=${limit}`
+    );
     return response;
   } catch (error) {
     throw error;

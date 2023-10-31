@@ -131,6 +131,20 @@ const UpdateForm = (props: IUpdateForm) => {
               )}
             />
             <Controller
+              name={"emailId"}
+              control={control}
+              render={({ field, fieldState }) => (
+                <TextField
+                  {...field}
+                  label="Email"
+                  placeholder="Enter email.."
+                  error={fieldState.invalid}
+                  endIcon={fieldState.invalid}
+                  helperText={fieldState.error?.message}
+                />
+              )}
+            />
+            <Controller
               name={"salary"}
               control={control}
               render={({ field, fieldState }) => (
