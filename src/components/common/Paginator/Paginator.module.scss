@@ -1,0 +1,77 @@
+@import "../../../styles/resources.scss";
+
+.container {
+  width: 100%;
+  @include displayFlex(row, center, center, 20px);
+
+  .pageSizeContainer {
+    .chips {
+      @include buttonAppearance($white, $grey-900);
+    }
+  }
+
+  .pageSelection {
+    @include displayFlex(column, flex-start, flex-start, 8px);
+
+    .subContainer {
+      @include displayFlex(row, center, center, 4px);
+
+      .input {
+        @include typoGraphy($font-family-poppins, 500, 14px, 145%, 0.5px);
+        padding: 1rem;
+        max-width: toRem(60);
+        max-height: toRem(40);
+        background: $white;
+        border: 1px solid $blue-grey-600;
+        border-radius: toRem(8);
+        overflow: none;
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+    }
+
+    .errorVisibility {
+      visibility: hidden;
+    }
+
+    .error {
+      @include typoGraphy($font-family-poppins, 400, 13px, 150%, 0.5px);
+      color: $red;
+    }
+  }
+
+  .paginator {
+    @include displayFlex(row, center, center, 8px);
+
+    .badgeContainer {
+      @include displayFlex(row, space-between, center, 8px);
+      max-width: toRem(424);
+      max-height: toRem(40);
+
+      .badge {
+        @include displayFlex(row, center, center, 0px);
+        min-width: toRem(40);
+        min-height: toRem(40);
+        border-radius: toRem(8);
+        cursor: pointer;
+        padding: 1rem;
+      }
+    }
+
+    .active {
+      @include buttonAppearance($blue-100, $blue);
+    }
+
+    .icons {
+      cursor: pointer;
+    }
+
+    .dot {
+      pointer-events: none;
+    }
+  }
+}

@@ -2,9 +2,11 @@ import { SERVER_CONFIG } from "../helpers/constant";
 import { Client } from "../helpers/types";
 import httpClient from "./index.service";
 
-export async function getClients() {
+export async function getClients(skip: number, limit: number) {
   try {
-    const response = await httpClient.get(SERVER_CONFIG.client);
+    const response = await httpClient.get(
+      `${SERVER_CONFIG.client}?skip=${skip}&limit=${limit}`
+    );
     return response;
   } catch (error) {
     throw error;

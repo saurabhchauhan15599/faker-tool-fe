@@ -65,3 +65,7 @@ export function validateLimit(limit: string) {
   const numberRegex = /^\d+$/;
   return numberRegex.test(limit);
 }
+
+export function paginate(currentPage: number, limit: number) {
+  return (currentPage - 1) * limit;
+}

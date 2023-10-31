@@ -11,14 +11,22 @@
   .secondary {
     margin: 0 1rem;
     flex: 85%;
-    box-shadow: $box-shadow-4;
-    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+
+    .grid {
+      border-radius: 8px;
+      box-shadow: $box-shadow-4;
+    }
+
+    .pagination {
+      display: flex;
+      align-self: flex-end;
+      margin: 1rem;
+      text-align: right;
+    }
   }
 }
-
 .text {
   font-size: 16px;
-}
-.currency{
-  
 }

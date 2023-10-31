@@ -28,6 +28,9 @@ import {
 } from "../../services/project.service";
 import css from "./index.module.scss";
 import { columnsClient, columnsEmployees, columnsProjects } from "./utils";
+import Paginator from "../../components/common/Paginator/Paginator";
+import { paginate } from "../../helpers/utils";
+import { dropDownOptions } from "../../components/common/Paginator/constant";
 
 interface IState {
   isLoading: boolean;
@@ -37,6 +40,10 @@ interface IState {
   currentStep: number;
   tableData: any;
   user: any;
+  Limit: number;
+  skip: number;
+  totalRecords: number;
+  selectLimit: { id: number; label: string; value: number };
 }
 
 interface IEmployeeForm {
@@ -48,6 +55,7 @@ interface IUpdateForm {
   companySize: string;
   representativeName: string;
   businessUnit: string;
+  emailId: string;
   status: {
     label?: string;
     value?: string;
@@ -79,27 +87,48 @@ const Dashboard = () => {
     generate: false,
     edit: false,
     user: {},
+    skip: 0,
+    Limit: 10,
+    selectLimit: dropDownOptions[0],
+    totalRecords: 0,
   });
 
-  const { currentStep, tableData, generate, silentLoading, edit, user } =
-    userData;
+  const {
+    currentStep,
+    tableData,
+    generate,
+    silentLoading,
+    edit,
+    user,
+    isLoading,
+    skip,
+    Limit,
+    totalRecords,
+    selectLimit,
+  } = userData;
 
   useEffect(() => {
     fetchClients();
-  }, [currentStep, silentLoading]);
+  }, [currentStep, silentLoading, skip, Limit]);
 
   const fetchClients = async () => {
-    const res =
+    setUserData((prev) => ({ ...prev, isLoading: !prev.isLoading }));
+    const res: any =
       currentStep === 0
-        ? await getClients()
+        ? await getClients(skip, Limit)
         : currentStep === 1
-        ? await getProjects()
-        : await getEmployees();
-    if (res)
+        ? await getProjects(skip, Limit)
+        : await getEmployees(skip, Limit);
+    if (res.statusCode === 200) {
       setUserData((prev) => ({
         ...prev,
-        tableData: res,
+        tableData: res.data,
+        totalRecords: res.totalRecords,
+        isLoading: !prev.isLoading,
       }));
+    } else {
+      setUserData((prev) => ({ ...prev, isLoading: !prev.isLoading }));
+    }
   };
 
   const registerForm = useForm<IEmployeeForm>({
@@ -128,14 +157,15 @@ const Dashboard = () => {
       businessUnit: "",
       status: {},
       salary: "",
+      emailId: "",
       designation: {},
     },
   });
-
   const { setValue } = updateForm;
 
   useEffect(() => {
     setValue("name", user?.name);
+    setValue("emailId", user?.emailId);
     setValue("companySize", user?.companySize);
     setValue("representativeName", user?.representativeName);
     setValue("businessUnit", user?.businessUnit);
@@ -148,7 +178,6 @@ const Dashboard = () => {
   }, [user]);
 
   const handleSubmit = async (data: IEmployeeForm) => {
-    console.log(data);
     const reqd_data = data.employees.map((val) => ({
       ...val,
       designation: val.designation.label,
@@ -164,11 +193,11 @@ const Dashboard = () => {
       silentLoading: !prev.silentLoading,
       generate: !prev.generate,
     }));
-    console.log(res);
-    notify({
-      message: "Employees Added",
-      severity: "success",
-    });
+    if (res)
+      notify({
+        message: "Employees Added",
+        severity: "success",
+      });
   };
 
   const onFormSubmit = async () => {
@@ -211,7 +240,11 @@ const Dashboard = () => {
         ? await updateProject(user.projectId, formData)
         : await updateEmployee(user.employeeId, formData);
 
-    if (res) console.log(res);
+    if (res) {
+      notify({ message: "Updated Successfully!", severity: "success" });
+    } else {
+      notify({ message: "Something Happened!", severity: "error" });
+    }
     setUserData((prev) => ({
       ...prev,
       edit: !prev.edit,
@@ -226,8 +259,21 @@ const Dashboard = () => {
         : currentStep === 1
         ? await deleteProject(value?.projectId)
         : await deleteEmployee(value.employeeId);
-    console.log(res);
+    if (res) notify({ message: "Deleted Successfully!", severity: "warning" });
     setUserData((prev) => ({ ...prev, silentLoading: !prev.silentLoading }));
+  };
+
+  const handlePageChange = (offset: number) => {
+    const skipCalculated = paginate(offset, Limit);
+    setUserData((prev) => ({ ...prev, skip: skipCalculated }));
+  };
+
+  const handleLimitChange = (newValue: any) => {
+    setUserData((prev) => ({
+      ...prev,
+      Limit: newValue.value,
+      selectLimit: newValue,
+    }));
   };
 
   const handleEdit = (value: Client | Project | Employee) => {
@@ -292,7 +338,25 @@ const Dashboard = () => {
         </section>
         <section className={css.secondary}>
           {!!documentData.length && (
-            <DataGrid columns={documentColumn} data={documentData} />
+            <>
+              <div className={css.grid}>
+                <DataGrid
+                  columns={documentColumn}
+                  data={documentData}
+                />
+              </div>
+              <div className={css.pagination}>
+                <Paginator
+                  currentPage={(skip / Limit) + 1}
+                  itemsPerPage={Limit}
+                  handlePageChange={handlePageChange}
+                  handleSelectChange={handleLimitChange}
+                  totalRecords={totalRecords}
+                  isItemsPerPage
+                  selectedOptions={selectLimit}
+                />
+              </div>
+            </>
           )}
         </section>
         <BasicModalDialog
