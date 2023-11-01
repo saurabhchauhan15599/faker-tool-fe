@@ -367,6 +367,7 @@ const Dashboard = () => {
           menuPlacement="bottom"
           onChange={handleFilter}
           value={filter}
+          isDisabled={!documentData.length}
         />
         <TextField
           disabled={filter.value === ""}
