@@ -356,6 +356,7 @@ const Dashboard = () => {
         <Select
           getOptionLabel={(option: any) => option.label}
           getOptionValue={(option: any) => option.value}
+          isDisabled={!documentData.length}
           options={
             currentStep === 0
               ? CLIENT_DROPDOWN
