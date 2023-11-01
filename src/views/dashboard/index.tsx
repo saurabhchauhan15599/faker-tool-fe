@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import BasicModalDialog from "../../components/base/modal";
@@ -6,6 +7,7 @@ import Paginator from "../../components/common/Paginator/Paginator";
 import { dropDownOptions } from "../../components/common/Paginator/constant";
 import DataGrid from "../../components/common/data-grid";
 import Header from "../../components/common/header";
+import NoDocumentPlaceholder from "../../components/common/no-document-placeholder";
 import SideBar from "../../components/common/sidebar";
 import AddForm from "../../components/common/table-form";
 import TextField from "../../components/common/text-field";
@@ -15,6 +17,7 @@ import {
   EMPLOYEE_DROPDOWN,
   PROJECT_DROPDOWN,
 } from "../../helpers/constant";
+import { employeeSchema } from "../../helpers/schema/employee.schema";
 import notify from "../../helpers/toastify-helper";
 import { Client, Employee, Project } from "../../helpers/types";
 import { paginate } from "../../helpers/utils";
@@ -61,8 +64,8 @@ interface ILabelProps {
   value: string;
 }
 
-interface IEmployeeForm {
-  employees: IEmployee[];
+interface IEmployeeGenerateForm {
+  employees?: IEmployee[];
 }
 
 interface IUpdateForm {
@@ -71,25 +74,17 @@ interface IUpdateForm {
   representativeName: string;
   businessUnit: string;
   emailId: string;
-  status: {
-    label?: string;
-    value?: string;
-  };
+  status: string;
   salary: string;
-  designation: {
-    label?: string;
-    value?: string;
-  };
+  designation: string;
+  empStatus: string;
 }
 
 interface IEmployee {
   limit: string;
   min: string;
   max: string;
-  designation: {
-    label?: string;
-    value?: string;
-  };
+  designation: string;
 }
 
 const Dashboard = () => {
@@ -106,11 +101,7 @@ const Dashboard = () => {
     Limit: 10,
     search: "",
     selectLimit: dropDownOptions[0],
-    filter: {
-      id: 1,
-      label: "Select Filter..",
-      value: "",
-    },
+    filter: { id: 0, label: "", value: "" },
     totalRecords: 0,
   });
 
@@ -142,8 +133,8 @@ const Dashboard = () => {
       currentStep === 0
         ? await getClients(skip, Limit, filter.value, deferredValue)
         : currentStep === 1
-        ? await getProjects(skip, Limit, filter.value, deferredValue)
-        : await getEmployees(skip, Limit, filter.value, deferredValue);
+        ? await getProjects(skip, Limit, filter?.value, deferredValue)
+        : await getEmployees(skip, Limit, filter?.value, deferredValue);
     if (res.statusCode === 200) {
       setUserData((prev) => ({
         ...prev,
@@ -156,21 +147,22 @@ const Dashboard = () => {
     }
   };
 
-  const registerForm = useForm<IEmployeeForm>({
+  const registerForm = useForm<IEmployeeGenerateForm>({
     mode: "onSubmit",
     reValidateMode: "onChange",
-    // resolver: yupResolver(employeeFormSchema),
+    resolver: yupResolver(employeeSchema),
     defaultValues: {
       employees: [
         {
           limit: "",
           min: "",
           max: "",
-          designation: {},
+          designation: "",
         },
       ],
     },
   });
+  const { reset } = registerForm;
 
   const updateForm = useForm<IUpdateForm>({
     mode: "onSubmit",
@@ -180,12 +172,14 @@ const Dashboard = () => {
       companySize: "",
       representativeName: "",
       businessUnit: "",
-      status: {},
+      status: "",
       salary: "",
+      empStatus: "",
       emailId: "",
-      designation: {},
+      designation: "",
     },
   });
+
   const { setValue } = updateForm;
 
   useEffect(() => {
@@ -194,18 +188,16 @@ const Dashboard = () => {
     setValue("companySize", user?.companySize);
     setValue("representativeName", user?.representativeName);
     setValue("businessUnit", user?.businessUnit);
-    setValue("status", { label: user?.status, value: user?.status });
-    setValue("designation", {
-      label: user?.designation,
-      value: user?.designation,
-    });
+    setValue("status", user?.status);
+    setValue("designation", user?.designation);
     setValue("salary", user?.salary);
+    setValue("businessUnit", user?.businessUnit);
+    setValue("empStatus", user?.empStatus);
   }, [user]);
 
-  const handleSubmit = async (data: IEmployeeForm) => {
-    const reqd_data = data.employees.map((val) => ({
+  const handleSubmit = async (data: IEmployeeGenerateForm) => {
+    const reqd_data = data?.employees?.map((val) => ({
       ...val,
-      designation: val.designation.label,
       salary: {
         min: val.min,
         max: val.max,
@@ -217,12 +209,22 @@ const Dashboard = () => {
       ...prev,
       silentLoading: !prev.silentLoading,
       generate: !prev.generate,
+      search: "",
+      filter: { id: 0, label: "", value: "" },
     }));
-    if (res)
+    setLimit("");
+    if (res) {
       notify({
         message: "Employees Added",
         severity: "success",
       });
+    } else {
+      notify({
+        message: "Something Happened!",
+        severity: "error",
+      });
+    }
+    reset();
   };
 
   const onFormSubmit = async () => {
@@ -241,22 +243,32 @@ const Dashboard = () => {
       ...prev,
       silentLoading: !prev.silentLoading,
       generate: !prev.generate,
+      search: "",
+      filter: { id: 0, label: "", value: "" },
     }));
+    setLimit("");
   };
 
   const handleUpdateSubmit = async (data: IUpdateForm) => {
     const filtered_values = Object.fromEntries(
       Object.entries(data).filter(([_, value]) => value !== undefined)
     );
+
     const gettingDeg = {
       ...filtered_values,
-      designation: filtered_values.designation.label,
-      status: filtered_values.status.label,
+      designation: filtered_values.designation,
+      status: filtered_values.status,
     };
     const formData = {
       ...user,
       ...gettingDeg,
     };
+
+    // const formDataWithoutId = Object.fromEntries(
+    //   Object.keys(formData)
+    //     .filter((key) => key !== "_id")
+    //     .map((key) => [key, formData[key]])
+    // );
 
     const res: any =
       currentStep === 0
@@ -342,7 +354,12 @@ const Dashboard = () => {
 
   const handleNavigation = (value: number) => {
     setLimit("");
-    setUserData((prev) => ({ ...prev, currentStep: value }));
+    setUserData((prev) => ({
+      ...prev,
+      currentStep: value,
+      search: "",
+      filter: { id: 0, label: "", value: "" },
+    }));
   };
 
   return (
@@ -367,7 +384,7 @@ const Dashboard = () => {
           placeholder="Select Filter.."
           menuPlacement="bottom"
           onChange={handleFilter}
-          value={filter}
+          value={filter.label ? filter : ""}
         />
         <TextField
           disabled={filter.value === ""}
@@ -395,7 +412,7 @@ const Dashboard = () => {
           </SideBar>
         </section>
         <section className={css.secondary}>
-          {!!documentData.length && (
+          {!!documentData.length ? (
             <>
               <div className={css.grid}>
                 <DataGrid columns={documentColumn} data={documentData} />
@@ -412,6 +429,14 @@ const Dashboard = () => {
                 />
               </div>
             </>
+          ) : (
+            <div className={css.notPresent}>
+              <NoDocumentPlaceholder
+                onClick={() =>
+                  setUserData((prev) => ({ ...prev, generate: !prev.generate }))
+                }
+              />
+            </div>
           )}
         </section>
       </div>
@@ -449,6 +474,7 @@ const Dashboard = () => {
       </BasicModalDialog>
       <BasicModalDialog
         open={edit}
+        width={1000}
         setOpen={() =>
           setUserData((prev) => ({
             ...prev,

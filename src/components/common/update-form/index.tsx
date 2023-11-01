@@ -1,8 +1,10 @@
 import { Button } from "@mui/joy";
 import { Controller, useFormContext } from "react-hook-form";
 import {
+  BU_DROPDOWN,
+  DESIGNATION_DROPDOWN,
+  EMP_STATUS_DROPDOWN,
   STATUS_DROPDOWN,
-  designationDropdown,
 } from "../../../helpers/constant";
 import SelectLabel from "../select-label";
 import TextField from "../text-field";
@@ -16,7 +18,7 @@ interface IUpdateForm {
 
 const UpdateForm = (props: IUpdateForm) => {
   const { onFormSubmit, type, handleClose } = props;
-  const { control, handleSubmit } = useFormContext();
+  const { control, handleSubmit, setValue } = useFormContext();
   return (
     <div className={css.container}>
       <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
@@ -29,6 +31,7 @@ const UpdateForm = (props: IUpdateForm) => {
                 <TextField
                   {...field}
                   label="Name"
+                  required
                   placeholder="Enter name.."
                   error={fieldState.invalid}
                   endIcon={fieldState.invalid}
@@ -42,6 +45,7 @@ const UpdateForm = (props: IUpdateForm) => {
               render={({ field, fieldState }) => (
                 <TextField
                   {...field}
+                  required
                   label="Representative Name"
                   placeholder="Enter name.."
                   error={fieldState.invalid}
@@ -56,6 +60,7 @@ const UpdateForm = (props: IUpdateForm) => {
               render={({ field, fieldState }) => (
                 <TextField
                   {...field}
+                  required
                   label="Company Size"
                   placeholder="Enter designation.."
                   error={fieldState.invalid}
@@ -75,6 +80,7 @@ const UpdateForm = (props: IUpdateForm) => {
                 <TextField
                   {...field}
                   label="Name"
+                  required
                   placeholder="Enter name.."
                   error={fieldState.invalid}
                   endIcon={fieldState.invalid}
@@ -88,6 +94,7 @@ const UpdateForm = (props: IUpdateForm) => {
               render={({ field, fieldState }) => (
                 <TextField
                   {...field}
+                  required
                   label="Business Unit"
                   placeholder="Enter BU.."
                   error={fieldState.invalid}
@@ -102,6 +109,18 @@ const UpdateForm = (props: IUpdateForm) => {
               render={({ field, fieldState }) => (
                 <SelectLabel
                   {...field}
+                  required
+                  value={
+                    field.value
+                      ? {
+                          value: field.value,
+                          label: field.value,
+                        }
+                      : ""
+                  }
+                  onChange={(newValue: any) =>
+                    setValue("status", newValue.label)
+                  }
                   options={STATUS_DROPDOWN}
                   label="Status"
                   placeholder="Select status.."
@@ -116,65 +135,142 @@ const UpdateForm = (props: IUpdateForm) => {
         )}
         {type === "Employee" && (
           <section className={css.formFields}>
-            <Controller
-              name={"name"}
-              control={control}
-              render={({ field, fieldState }) => (
-                <TextField
-                  {...field}
-                  label="Name"
-                  placeholder="Enter name.."
-                  error={fieldState.invalid}
-                  endIcon={fieldState.invalid}
-                  helperText={fieldState.error?.message}
-                />
-              )}
-            />
-            <Controller
-              name={"emailId"}
-              control={control}
-              render={({ field, fieldState }) => (
-                <TextField
-                  {...field}
-                  label="Email"
-                  placeholder="Enter email.."
-                  error={fieldState.invalid}
-                  endIcon={fieldState.invalid}
-                  helperText={fieldState.error?.message}
-                />
-              )}
-            />
-            <Controller
-              name={"salary"}
-              control={control}
-              render={({ field, fieldState }) => (
-                <TextField
-                  {...field}
-                  label="Salary"
-                  placeholder="Enter salary.."
-                  error={fieldState.invalid}
-                  endIcon={fieldState.invalid}
-                  helperText={fieldState.error?.message}
-                />
-              )}
-            />
-            <Controller
-              name={`designation`}
-              control={control}
-              render={({ field, fieldState }) => (
-                <SelectLabel
-                  {...field}
-                  getOptionLabel={(option: any) => option.label}
-                  getOptionValue={(option: any) => option.value}
-                  options={designationDropdown}
-                  label="Designation"
-                  placeholder="Enter designation.."
-                  error={fieldState.invalid}
-                  helperText={fieldState.error?.message}
-                  menuPlacement="top"
-                />
-              )}
-            />
+            <div className={css.fields}>
+              <Controller
+                name={"name"}
+                control={control}
+                render={({ field, fieldState }) => (
+                  <TextField
+                    {...field}
+                    required
+                    label="Name"
+                    placeholder="Enter name.."
+                    error={fieldState.invalid}
+                    endIcon={fieldState.invalid}
+                    helperText={fieldState.error?.message}
+                  />
+                )}
+              />
+              <Controller
+                name={"emailId"}
+                control={control}
+                render={({ field, fieldState }) => (
+                  <TextField
+                    {...field}
+                    required
+                    label="Email"
+                    placeholder="Enter email.."
+                    error={fieldState.invalid}
+                    endIcon={fieldState.invalid}
+                    helperText={fieldState.error?.message}
+                  />
+                )}
+              />
+              <Controller
+                name={"salary"}
+                control={control}
+                render={({ field, fieldState }) => (
+                  <TextField
+                    {...field}
+                    required
+                    label="Salary"
+                    placeholder="Enter salary.."
+                    error={fieldState.invalid}
+                    endIcon={fieldState.invalid}
+                    helperText={fieldState.error?.message}
+                  />
+                )}
+              />
+            </div>
+            <div className={css.fields}>
+              <Controller
+                name={`designation`}
+                control={control}
+                render={({ field, fieldState }) => (
+                  <SelectLabel
+                    {...field}
+                    required
+                    value={
+                      field.value
+                        ? {
+                            value: field.value,
+                            label: field.value,
+                          }
+                        : ""
+                    }
+                    onChange={(newValue: any) =>
+                      setValue("designation", newValue.label)
+                    }
+                    getOptionLabel={(option: any) => option.label}
+                    getOptionValue={(option: any) => option.value}
+                    options={DESIGNATION_DROPDOWN}
+                    label="Designation"
+                    placeholder="Enter designation.."
+                    error={fieldState.invalid}
+                    helperText={fieldState.error?.message}
+                    menuPlacement="top"
+                  />
+                )}
+              />
+              <Controller
+                name={`businessUnit`}
+                control={control}
+                render={({ field, fieldState }) => (
+                  <SelectLabel
+                    {...field}
+                    required
+                    value={
+                      field.value
+                        ? {
+                            value: field.value,
+                            label: field.value,
+                          }
+                        : ""
+                    }
+                    onChange={(newValue: any) =>
+                      setValue("businessUnit", newValue.label)
+                    }
+                    getOptionLabel={(option: any) => option.label}
+                    getOptionValue={(option: any) => option.value}
+                    options={BU_DROPDOWN}
+                    label="Business Unit"
+                    placeholder="Enter BU.."
+                    error={fieldState.invalid}
+                    helperText={fieldState.error?.message}
+                    menuPlacement="top"
+                  />
+                )}
+              />
+              <Controller
+                name={`empStatus`}
+                control={control}
+                render={({ field, fieldState }) => (
+                  <SelectLabel
+                    {...field}
+                    required
+                    value={
+                      field.value
+                        ? {
+                            value: field.value,
+                            label: field.value,
+                          }
+                        : ""
+                    }
+                    onChange={(newValue: any) =>
+                      setValue("empStatus", newValue.label)
+                    }
+                    getOptionLabel={(option: any) => option.label}
+                    getOptionValue={(option: any) => option.value}
+                    options={EMP_STATUS_DROPDOWN}
+                    label="Employee Status"
+                    placeholder="Enter status.."
+                    error={fieldState.invalid}
+                    helperText={fieldState.error?.message}
+                    menuPlacement="top"
+                  />
+                )}
+              />
+            </div>
           </section>
         )}
         <section className={css.btnContainer}>

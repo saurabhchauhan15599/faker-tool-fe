@@ -2,7 +2,7 @@ import { Button } from "@mui/joy";
 import { useState } from "react";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import TrashCanIcon from "../../../assets/icons/TrashCanIcon";
-import { designationDropdown } from "../../../helpers/constant";
+import { DESIGNATION_DROPDOWN } from "../../../helpers/constant";
 import { validateLimit } from "../../../helpers/utils";
 import Typography from "../../base/typography";
 import SelectLabel from "../select-label";
@@ -21,7 +21,7 @@ interface IAddForm {
 const AddForm = (props: IAddForm) => {
   const { type, onSubmit, handleClose, setLimit, limit, handleSubmit } = props;
   const [isValid, setIsValid] = useState(false);
-  const { control, handleSubmit: onFormSubmit } = useFormContext();
+  const { control, handleSubmit: onFormSubmit, setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     name: "employees",
     control,
@@ -66,6 +66,7 @@ const AddForm = (props: IAddForm) => {
                     render={({ field, fieldState }) => (
                       <TextField
                         {...field}
+                        required
                         label="Limit"
                         placeholder="Enter limit.."
                         error={fieldState.invalid}
@@ -81,12 +82,27 @@ const AddForm = (props: IAddForm) => {
                     render={({ field, fieldState }) => (
                       <SelectLabel
                         {...field}
-                        options={designationDropdown}
+                        value={
+                          field.value
+                            ? {
+                                value: field.value,
+                                label: field.value,
+                              }
+                            : ""
+                        }
+                        required
+                        options={DESIGNATION_DROPDOWN}
                         label="Designation"
-                        placeholder="Enter designation.."
+                        placeholder="Select designation.."
                         error={fieldState.invalid}
                         helperText={fieldState.error?.message}
                         menuPlacement="top"
+                        onChange={(newValue: any) =>
+                          setValue(
+                            `employees.${index}.designation`,
+                            newValue.label as string
+                          )
+                        }
                       />
                     )}
                   />
@@ -97,6 +113,7 @@ const AddForm = (props: IAddForm) => {
                     render={({ field, fieldState }) => (
                       <TextField
                         {...field}
+                        required
                         label="Minimum Salary"
                         placeholder="Enter limit.."
                         error={fieldState.invalid}
@@ -112,6 +129,7 @@ const AddForm = (props: IAddForm) => {
                     render={({ field, fieldState }) => (
                       <TextField
                         {...field}
+                        required
                         value={`${field.value}`.toLocaleString()}
                         label="Maximum Salary"
                         placeholder="Enter limit.."
@@ -143,6 +161,7 @@ const AddForm = (props: IAddForm) => {
         <div className={css.secondary}>
           <section className={css.client}>
             <TextField
+              required
               label="Limit"
               value={limit}
               placeholder="Enter limit.."

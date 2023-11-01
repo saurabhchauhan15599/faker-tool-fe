@@ -84,7 +84,7 @@ const Images: any = {
   crossYellow: CrossYellow,
 };
 
-export const designationDropdown = [
+export const DESIGNATION_DROPDOWN = [
   { id: 1, label: "Senior QA Engineer", value: "Senior_QA_Engineer" },
   {
     id: 2,
@@ -240,6 +240,7 @@ export const designationDropdown = [
   { id: 53, label: "Senior Product Manager", value: "Senior_Product_Manager" },
   { id: 54, label: "DevOps Engineer", value: "DevOps_Engineer" },
   { id: 55, label: "Senior Solutions Architect", value: "Senior_S" },
+  { id: 56, label: "CEO", value: "CEO" },
 ];
 
 export const STATUS_DROPDOWN = [
@@ -273,6 +274,54 @@ export const PROJECT_DROPDOWN = [
   { id: 2, value: "services", label: "Services" },
   { id: 3, value: "status", label: "Status" },
   { id: 4, value: "type", label: "Type" },
+];
+
+export const BU_DROPDOWN = [
+  {
+    id: "2f620b46-25fe-4501-b74f-2f071e5f9999",
+    label: "EdTech",
+    value: "EdTech",
+  },
+  {
+    id: "2e63ab18-7c52-4377-9a8e-1f260f371313",
+    label: "BFSI",
+    value: "BFSI",
+  },
+  {
+    id: "e74f1b91-a723-44b7-b77e-214c03479b9b",
+    label: "Travel and Loyalty",
+    value: "Travel and Loyalty",
+  },
+  {
+    id: "1c81595d-09cb-47fe-99b2-7b8617703888",
+    label: "E-Commerce",
+    value: "E-Commerce",
+  },
+  {
+    id: "9124d302-9758-4643-ae7a-742b9d3d3f3f",
+    label: "MarTech",
+    value: "MarTech",
+  },
+  {
+    id: "30b3785c-a504-4005-9067-427f77037373",
+    label: "Real Estate",
+    value: "Real Estate",
+  },
+  {
+    id: "77c79024-8060-46b2-b952-61036b113737",
+    label: "Healthcare",
+    value: "Healthcare",
+  },
+  {
+    id: "172f5e98-841b-4d16-a3f4-4b7909237a7a",
+    label: "Shipping and Logistics",
+    value: "Shipping and Logistics",
+  },
+];
+
+export const EMP_STATUS_DROPDOWN = [
+  { id: 1, label: "Active", value: "Active" },
+  { id: 1, label: "Resigned", value: "Resigned" },
 ];
 
 export default Images;
