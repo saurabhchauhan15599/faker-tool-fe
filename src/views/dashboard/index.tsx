@@ -1,13 +1,23 @@
-import { useEffect, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import BasicModalDialog from "../../components/base/modal";
+import { Select } from "../../components/base/select";
+import Paginator from "../../components/common/Paginator/Paginator";
+import { dropDownOptions } from "../../components/common/Paginator/constant";
 import DataGrid from "../../components/common/data-grid";
 import Header from "../../components/common/header";
 import SideBar from "../../components/common/sidebar";
 import AddForm from "../../components/common/table-form";
+import TextField from "../../components/common/text-field";
 import UpdateForm from "../../components/common/update-form";
+import {
+  CLIENT_DROPDOWN,
+  EMPLOYEE_DROPDOWN,
+  PROJECT_DROPDOWN,
+} from "../../helpers/constant";
 import notify from "../../helpers/toastify-helper";
 import { Client, Employee, Project } from "../../helpers/types";
+import { paginate } from "../../helpers/utils";
 import {
   deleteClient,
   getClients,
@@ -28,9 +38,6 @@ import {
 } from "../../services/project.service";
 import css from "./index.module.scss";
 import { columnsClient, columnsEmployees, columnsProjects } from "./utils";
-import Paginator from "../../components/common/Paginator/Paginator";
-import { paginate } from "../../helpers/utils";
-import { dropDownOptions } from "../../components/common/Paginator/constant";
 
 interface IState {
   isLoading: boolean;
@@ -44,6 +51,14 @@ interface IState {
   skip: number;
   totalRecords: number;
   selectLimit: { id: number; label: string; value: number };
+  filter: { id: number; label: string; value: string };
+  search: string;
+}
+
+interface ILabelProps {
+  id: number;
+  label: string;
+  value: string;
 }
 
 interface IEmployeeForm {
@@ -89,7 +104,13 @@ const Dashboard = () => {
     user: {},
     skip: 0,
     Limit: 10,
+    search: "",
     selectLimit: dropDownOptions[0],
+    filter: {
+      id: 1,
+      label: "Select Filter..",
+      value: "",
+    },
     totalRecords: 0,
   });
 
@@ -105,20 +126,24 @@ const Dashboard = () => {
     Limit,
     totalRecords,
     selectLimit,
+    filter,
+    search,
   } = userData;
+
+  const deferredValue = useDeferredValue(search);
 
   useEffect(() => {
     fetchClients();
-  }, [currentStep, silentLoading, skip, Limit]);
+  }, [currentStep, silentLoading, skip, Limit, deferredValue]);
 
   const fetchClients = async () => {
     setUserData((prev) => ({ ...prev, isLoading: !prev.isLoading }));
     const res: any =
       currentStep === 0
-        ? await getClients(skip, Limit)
+        ? await getClients(skip, Limit, filter.value, deferredValue)
         : currentStep === 1
-        ? await getProjects(skip, Limit)
-        : await getEmployees(skip, Limit);
+        ? await getProjects(skip, Limit, filter.value, deferredValue)
+        : await getEmployees(skip, Limit, filter.value, deferredValue);
     if (res.statusCode === 200) {
       setUserData((prev) => ({
         ...prev,
@@ -284,6 +309,9 @@ const Dashboard = () => {
     }));
   };
 
+  const handleFilter = (newValue: unknown) =>
+    setUserData((prev) => ({ ...prev, filter: newValue as ILabelProps }));
+
   const columnClient = columnsClient({
     handleDelete,
     handleEdit,
@@ -318,13 +346,42 @@ const Dashboard = () => {
   };
 
   return (
-    <>
+    <div className={css.container}>
       <Header
         handleCLick={() =>
           setUserData((prev) => ({ ...prev, generate: !prev.generate }))
         }
       />
-      <div className={css.container}>
+      <div className={css.search}>
+        <Select
+          getOptionLabel={(option: any) => option.label}
+          getOptionValue={(option: any) => option.value}
+          options={
+            currentStep === 0
+              ? CLIENT_DROPDOWN
+              : currentStep === 1
+              ? PROJECT_DROPDOWN
+              : EMPLOYEE_DROPDOWN
+          }
+          placeholder="Select Filter.."
+          menuPlacement="bottom"
+          onChange={handleFilter}
+          value={filter}
+        />
+        <TextField
+          disabled={filter.value === ""}
+          value={search}
+          placeholder={filter.value === "" ? "Select a filter" : "Search.."}
+          onChange={(e) =>
+            setUserData((prev) => ({
+              ...prev,
+              search: e.target.value,
+              skip: 0,
+            }))
+          }
+        />
+      </div>
+      <div className={css.subContainer}>
         <section className={css.primary}>
           <SideBar
             onClick={handleNavigation}
@@ -340,14 +397,11 @@ const Dashboard = () => {
           {!!documentData.length && (
             <>
               <div className={css.grid}>
-                <DataGrid
-                  columns={documentColumn}
-                  data={documentData}
-                />
+                <DataGrid columns={documentColumn} data={documentData} />
               </div>
               <div className={css.pagination}>
                 <Paginator
-                  currentPage={(skip / Limit) + 1}
+                  currentPage={skip / Limit + 1}
                   itemsPerPage={Limit}
                   handlePageChange={handlePageChange}
                   handleSelectChange={handleLimitChange}
@@ -359,68 +413,68 @@ const Dashboard = () => {
             </>
           )}
         </section>
-        <BasicModalDialog
-          open={generate}
-          width={1000}
-          setOpen={() =>
-            setUserData((prev) => ({
-              ...prev,
-              generate: !prev.generate,
-            }))
-          }
-        >
-          <FormProvider {...registerForm}>
-            <AddForm
-              setLimit={setLimit}
-              handleSubmit={onFormSubmit}
-              limit={limit}
-              handleClose={() =>
-                setUserData((prev) => ({
-                  ...prev,
-                  generate: !prev.generate,
-                }))
-              }
-              type={
-                currentStep === 0
-                  ? "Client"
-                  : currentStep === 1
-                  ? "Project"
-                  : "Employee"
-              }
-              onSubmit={handleSubmit}
-            />
-          </FormProvider>
-        </BasicModalDialog>
-        <BasicModalDialog
-          open={edit}
-          setOpen={() =>
-            setUserData((prev) => ({
-              ...prev,
-              edit: !prev.edit,
-            }))
-          }
-        >
-          <FormProvider {...updateForm}>
-            <UpdateForm
-              onFormSubmit={handleUpdateSubmit}
-              handleClose={() =>
-                setUserData((prev) => ({
-                  ...prev,
-                  edit: !prev.edit,
-                }))
-              }
-              type={
-                currentStep === 0
-                  ? "Client"
-                  : currentStep === 1
-                  ? "Project"
-                  : "Employee"
-              }
-            />
-          </FormProvider>
-        </BasicModalDialog>
       </div>
-    </>
+      <BasicModalDialog
+        open={generate}
+        width={1000}
+        setOpen={() =>
+          setUserData((prev) => ({
+            ...prev,
+            generate: !prev.generate,
+          }))
+        }
+      >
+        <FormProvider {...registerForm}>
+          <AddForm
+            setLimit={setLimit}
+            handleSubmit={onFormSubmit}
+            limit={limit}
+            handleClose={() =>
+              setUserData((prev) => ({
+                ...prev,
+                generate: !prev.generate,
+              }))
+            }
+            type={
+              currentStep === 0
+                ? "Client"
+                : currentStep === 1
+                ? "Project"
+                : "Employee"
+            }
+            onSubmit={handleSubmit}
+          />
+        </FormProvider>
+      </BasicModalDialog>
+      <BasicModalDialog
+        open={edit}
+        setOpen={() =>
+          setUserData((prev) => ({
+            ...prev,
+            edit: !prev.edit,
+          }))
+        }
+      >
+        <FormProvider {...updateForm}>
+          <UpdateForm
+            onFormSubmit={handleUpdateSubmit}
+            handleClose={() =>
+              setUserData((prev) => ({
+                ...prev,
+                edit: !prev.edit,
+              }))
+            }
+            type={
+              currentStep === 0
+                ? "Client"
+                : currentStep === 1
+                ? "Project"
+                : "Employee"
+            }
+          />
+        </FormProvider>
+      </BasicModalDialog>
+    </div>
   );
 };
 

@@ -248,4 +248,31 @@ export const STATUS_DROPDOWN = [
   { id: 3, label: "Completed", value: "completed" },
   { id: 4, label: "Overdue", value: "overdue" },
 ];
+
+export const CLIENT_DROPDOWN = [
+  { id: 1, value: "name", label: "Name" },
+  { id: 2, value: "email", label: "Email" },
+  { id: 3, value: "contact", label: "Contact" },
+  { id: 4, value: "companyDomain", label: "Company Domain" },
+  { id: 5, value: "representativeName", label: "Representative Name" },
+  { id: 6, value: "representativeContact", label: "Representative Contact" },
+];
+
+export const EMPLOYEE_DROPDOWN = [
+  { id: 1, value: "name", label: "Name" },
+  { id: 2, value: "emailId", label: "Email" },
+  { id: 4, value: "department", label: "Department" },
+  { id: 5, value: "designation", label: "Designation" },
+  { id: 6, value: "empStatus", label: "Employee Status" },
+  { id: 7, value: "businessUnit", label: "Business Unit" },
+  { id: 8, value: "reportingTo", label: "Reporting To" },
+];
+
+export const PROJECT_DROPDOWN = [
+  { id: 1, value: "name", label: "Name" },
+  { id: 2, value: "services", label: "Services" },
+  { id: 3, value: "status", label: "Status" },
+  { id: 4, value: "type", label: "Type" },
+];
+
 export default Images;
