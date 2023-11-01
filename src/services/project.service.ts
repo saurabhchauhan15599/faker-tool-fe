@@ -2,17 +2,27 @@ import { SERVER_CONFIG } from "../helpers/constant";
 import { Project } from "../helpers/types";
 import httpClient from "./index.service";
 
-export async function getProjects(skip: number, limit: number) {
+export async function getProjects(
+  skip: number,
+  limit: number,
+  field: string,
+  value: string
+) {
+  const Field = "&searchField=" + field;
+  const Value = "searchValue=" + value;
+
   try {
     const response = await httpClient.get(
-      `${SERVER_CONFIG.employee}?skip=${skip}&limit=${limit}`
+      `${SERVER_CONFIG.project}?skip=${skip}&limit=${limit}${
+        field && value && Field + "&" + Value
+      }`
     );
     return response;
   } catch (error) {
     throw error;
   }
 }
- 
+
 export async function saveProjects(requestBody: { limit: string }) {
   try {
     const response = await httpClient.post(SERVER_CONFIG.project, requestBody);

@@ -21,6 +21,14 @@ export const columnsClient = ({
       },
     },
     {
+      Header: "Email",
+      accessor: "email",
+      Cell: (props: CellProps<Client>) => {
+        const { value } = props;
+        return <Typography className={css.text}>{value}</Typography>;
+      },
+    },
+    {
       Header: "Company Size",
       accessor: "companySize",
       Cell: (props: CellProps<Client>) => {
@@ -153,7 +161,14 @@ export const columnsEmployees = ({
       accessor: "emailId",
       Cell: (props: CellProps<Employee>) => {
         const { value } = props;
-        return <Typography className={css.text}>{value}</Typography>;
+        return (
+          <Typography
+            title={value}
+            className={[css.text, css.whiteSpace].join(" ")}
+          >
+            {value}
+          </Typography>
+        );
       },
     },
     {
@@ -162,18 +177,13 @@ export const columnsEmployees = ({
       Cell: (props: CellProps<Employee>) => {
         const { value } = props;
         return (
-          <Typography className={[css.text, css.currency].join(' ')}>
-            ₹ {getCommaSeparatedValue(value)}
+          <Typography
+            title={value}
+            className={[css.text, css.whiteSpace].join(" ")}
+          >
+            ₹{getCommaSeparatedValue(value)}
           </Typography>
         );
-      },
-    },
-    {
-      Header: "Phone",
-      accessor: "phone",
-      Cell: (props: CellProps<Employee>) => {
-        const { value } = props;
-        return <Typography className={css.text}>{value}</Typography>;
       },
     },
     {
@@ -187,6 +197,37 @@ export const columnsEmployees = ({
     {
       Header: "Designation",
       accessor: "designation",
+      Cell: (props: CellProps<Employee>) => {
+        const { value } = props;
+        return (
+          <Typography
+            title={value}
+            className={[css.text, css.whiteSpace].join(" ")}
+          >
+            {value}
+          </Typography>
+        );
+      },
+    },
+    {
+      Header: "Employee Status",
+      accessor: "empStatus",
+      Cell: (props: CellProps<Employee>) => {
+        const { value } = props;
+        return <Typography className={css.text}>{value}</Typography>;
+      },
+    },
+    {
+      Header: "Reporting To",
+      accessor: "reportingTo",
+      Cell: (props: CellProps<Employee>) => {
+        const { value } = props;
+        return <Typography className={css.text}>{value}</Typography>;
+      },
+    },
+    {
+      Header: "Business Unit",
+      accessor: "businessUnit",
       Cell: (props: CellProps<Employee>) => {
         const { value } = props;
         return <Typography className={css.text}>{value}</Typography>;

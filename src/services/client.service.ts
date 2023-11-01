@@ -2,10 +2,20 @@ import { SERVER_CONFIG } from "../helpers/constant";
 import { Client } from "../helpers/types";
 import httpClient from "./index.service";
 
-export async function getClients(skip: number, limit: number) {
+export async function getClients(
+  skip: number,
+  limit: number,
+  field: string,
+  value: string
+) {
+  const Field = "&searchField=" + field;
+  const Value = "searchValue=" + value;
+
   try {
     const response = await httpClient.get(
-      `${SERVER_CONFIG.client}?skip=${skip}&limit=${limit}`
+      `${SERVER_CONFIG.client}?skip=${skip}&limit=${limit}${
+        field && value && Field + "&" + Value
+      }`
     );
     return response;
   } catch (error) {
