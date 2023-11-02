@@ -121,6 +121,14 @@ export const columnsProjects = ({
       },
     },
     {
+      Header: "Type",
+      accessor: "type",
+      Cell: (props: CellProps<Project>) => {
+        const { value } = props;
+        return <Typography className={css.text}>{value}</Typography>;
+      },
+    },
+    {
       Header: "Status",
       accessor: "status",
       Cell: (props: CellProps<Project>) => {
