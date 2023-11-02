@@ -271,9 +271,8 @@ export const EMPLOYEE_DROPDOWN = [
 
 export const PROJECT_DROPDOWN = [
   { id: 1, value: "name", label: "Name" },
-  { id: 2, value: "services", label: "Services" },
-  { id: 3, value: "status", label: "Status" },
-  { id: 4, value: "type", label: "Type" },
+  { id: 2, value: "status", label: "Status" },
+  { id: 3, value: "type", label: "Type" },
 ];
 
 export const BU_DROPDOWN = [
@@ -324,4 +323,9 @@ export const EMP_STATUS_DROPDOWN = [
   { id: 1, label: "Resigned", value: "Resigned" },
 ];
 
+export const TYPE_DROPDOWN = [
+  { id: 1, label: "Fixed", value: "Fixed" },
+  { id: 2, label: "TNM", value: "TNM" },
+  
+]
 export default Images;
