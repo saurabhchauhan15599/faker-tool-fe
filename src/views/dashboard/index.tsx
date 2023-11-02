@@ -17,7 +17,10 @@ import {
   EMPLOYEE_DROPDOWN,
   PROJECT_DROPDOWN,
 } from "../../helpers/constant";
-import { employeeSchema } from "../../helpers/schema/employee.schema";
+import {
+  employeeSchema,
+  updateFormSchema,
+} from "../../helpers/schema/employee.schema";
 import notify from "../../helpers/toastify-helper";
 import { Client, Employee, Project } from "../../helpers/types";
 import { paginate } from "../../helpers/utils";
@@ -167,6 +170,7 @@ const Dashboard = () => {
   const updateForm = useForm<IUpdateForm>({
     mode: "onSubmit",
     reValidateMode: "onChange",
+    resolver: yupResolver(updateFormSchema),
     defaultValues: {
       name: "",
       companySize: "",
